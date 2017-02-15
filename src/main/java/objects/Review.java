@@ -11,7 +11,23 @@ package objects;
  */
 public class Review {
 	int rating;
-	String response, person, date;
+	String review, name, date;
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public void setReview(String response) {
+        this.review = response;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
 
 	/* Generates a default review constructor */
 	public Review() {}
@@ -19,8 +35,8 @@ public class Review {
 	public Review(String date, int rating, String response, String person) {
 		this.date = date;
 		this.rating = rating;
-		this.response = response;
-		this.person = person;
+		this.review = response;
+		this.name = person;
 	}
 
 	/* Returns the date of this review */
@@ -34,20 +50,20 @@ public class Review {
 	}
 
 	/* Returns the response */
-	public String getResponse() {
-		return response;
+	public String getReview() {
+		return review;
 	}
 
 	/* Returns the name of the reviewer */
 	public String getName() {
-		return person;
+		return name;
 	}
 
 	/* Gets the review object in a string format
 	 * 
   	 * Returns a toString form of the object */
 	public String toString() {
-		return "Reviewer: " + person + "\nDate: " + date + "\nRating: " + rating
-			 + "\nReview: " + response; 
+		return "Reviewer: " + name + "\nDate: " + date + "\nRating: " + rating
+			 + "\nReview: " + review; 
 	}
 }
