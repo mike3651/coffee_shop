@@ -5,6 +5,7 @@
  */
 package data;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import objects.Messages;
 import objects.User;
 
 /**
@@ -141,5 +143,26 @@ public class Model {
     public void newMessage(User usr) throws SQLException
     {
         //String sqlInsert="insert into messages ("
+        
+        
     }
+
+    public Messages[] getMessage() throws SQLException {
+         LinkedList<Messages> ll = new LinkedList<Messages>();
+        String sqlQuery ="select * from users;";
+        Statement st = createStatement();
+        ResultSet rows = st.executeQuery(sqlQuery);
+        while (rows.next())
+        {
+            logger.log(Level.INFO, "Reading row...");
+            Messages usr = new Messages();
+            usr.setMessage(rows.getString("message"));
+            usr.setUserId(rows.getInt("userid"));
+            usr.setDateadded(rows.getDate("date"));
+            logger.log(Level.INFO, "Adding user to list with id=" + usr.getMessageId());
+            ll.add(usr);
+        }
+        return ll.toArray(new Messages[ll.size()]);
+    }
+    
 }

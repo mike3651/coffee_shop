@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
 
         resources.add(com.mycompany.sample_maven_web_app.UserService.class);
+        resources.add(com.mycompany.sample_maven_web_app.MessageService.class);
     }
     
 }
