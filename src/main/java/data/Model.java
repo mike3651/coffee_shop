@@ -11,9 +11,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jdk.nashorn.internal.runtime.RewriteException;
 import objects.Review;
 
 /**
@@ -24,6 +27,7 @@ public class Model {
         static final Logger logger = Logger.getLogger(Model.class.getName());
     private static Model instance;
     private Connection conn;
+    List<Review> reviewList;
     
     public static Model singleton() throws Exception {
         if (instance == null) {
@@ -42,6 +46,7 @@ public class Model {
         logger.log(Level.INFO, "attempting db connection");
         conn = DriverManager.getConnection(dbUrl);
         logger.log(Level.INFO, "db connection ok.");
+        reviewList = new ArrayList<>();
     }
     
     private Connection getConnection()
@@ -83,29 +88,33 @@ public class Model {
         return null;
     }
     
-        public Review[] getReviews() throws SQLException {
-         LinkedList<Review> ll = new LinkedList<Review>();
-        String sqlQuery ="select * from users;";
-        Statement st = createStatement();
-        ResultSet rows = st.executeQuery(sqlQuery);
-        while (rows.next())
-        {
-            logger.log(Level.INFO, "Reading row...");
-            Review usr = new Review();
-            usr.setReview(rows.getString("review"));
-            usr.setName(rows.getString("usename"));
-            usr.setRating(rows.getInt("rating"));
-            logger.log(Level.INFO, "Adding user to list with id=" + usr.getName());
-            ll.add(usr);
-        }
-        return ll.toArray(new Review[ll.size()]);
+    public void createReview(Review review) {
+        reviewList.add(review);
+    }
+    
+    public List<Review> getReviews() throws SQLException {
+        return reviewList;
     }
         
-          public void newReview(Review review) throws SQLException
-    {
-        //String sqlInsert="insert into messages ("
+
+    public void deleteReview(String name) {
+        //To change body of generated methods, choose Tools | Templates.
+        System.out.println("deleted");
         
-        
+       // pst.setInt(1, name);
+       // pst.execute();
     }
+
+    public void updateReview(Review jobj) {
+        StringBuilder sqlQuery = new StringBuilder();
+        sqlQuery.append("update review ");
+        sqlQuery.append("set name='" + jobj.getName() + "', ");
+        sqlQuery.append("rating=" + jobj.getRating() + " ");
+        sqlQuery.append("where description=" + jobj.getDescription()+ ";");
+       System.out.println("updated");
+    }
+    
+    
+    
     
 }

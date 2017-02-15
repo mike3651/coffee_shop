@@ -14,8 +14,8 @@ then
   echo "url=$url"
   echo "db=$db"
   echo "port=$port"
-  myurl="jdbc:postgresql://${url}:${port}/${db}?user=${usr}&password=${pswd}&sslmode=require"
+  myurl="jdbc:postgresql://ec2-54-235-204-221.compute-1.amazonaws.com:5432/d19m0j1erhvr7v?user=wxojhmodfpbmsv&password=80cfef5defecd78ff44e5e2bab48a26b06f930d1f57e097a6be957be98358c53&sslmode=require"
 fi
 export JDBC_DATABASE_URL="$myurl"
 echo "Run application with $JDBC_DATABASE_URL DB URL."
-java -jar target/dependency/webapp-runner.jar target/sample_maven_web_app-1.0-SNAPSHOT.war
+java -jar target/dependency/webapp-runner.jar target/coffeeshop-1.0-SNAPSHOT.war

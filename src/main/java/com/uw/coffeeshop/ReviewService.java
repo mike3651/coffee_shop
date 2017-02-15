@@ -8,10 +8,15 @@ package com.uw.coffeeshop;
 import data.Model;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import objects.Review;
@@ -21,45 +26,86 @@ import org.codehaus.jackson.map.ObjectMapper;
  *
  * @author ubuntu
  */
+@Path("review")
 public class ReviewService {    
-        @GET
-    @Produces(MediaType.TEXT_HTML)
-    public String getReviews() {
-        //TODO return proper representation object
-        StringBuilder sb = new StringBuilder();
-        sb.append("<html><body><style>table, th, td {font-family:Arial,Verdana,sans-serif;font-size:16px;padding: 0px;border-spacing: 0px;}</style><b>USERS LIST:</b><br><br><table cellpadding=10 border=1><tr><td>Name</td><td>Age</td><td>userid</td></tr>");
-        try
-        {
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getReviews() throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Review> reviews = null;
+        try {
+            
             Model db = Model.singleton();
-            Review[] message = db.getReviews();
-            for (int i=0;i<message.length;i++)
-                sb.append("<tr><td>" + message[i].getRating()+ "</td><td>" + message[i].getReview()+ "</td><td>" + message[i].getName()+ "</td></tr>");
+            reviews = db.getReviews();
+            
+        } catch (Exception ex) {
+            Logger.getLogger(ReviewService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        catch (Exception e)
-        {
-            sb.append("</table><br>Error getting users: " + e.toString() + "<br>");
-        }
-        sb.append("</table></body></html>");
-        return sb.toString();
+        return mapper.writeValueAsString(reviews);
     }
     
     
      
     @POST
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public String createReview(String jobj) throws IOException {
+    public void createReview(String jobj) throws IOException{
         ObjectMapper mapper = new ObjectMapper();
         Review user = mapper.readValue(jobj.toString(), Review.class);
+        Model db = null;
+        try {
+            db = Model.singleton();
+            db.createReview(user);
+        } catch (Exception ex) {
+            Logger.getLogger(ReviewService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
+    }
+    
+      @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String deleteReview(String jobj) throws IOException
+    {
+      ObjectMapper mapper = new ObjectMapper();
+        Review review = mapper.readValue(jobj.toString(), Review.class);
         StringBuilder text = new StringBuilder();
-        text.append("The JSON obj:" + jobj.toString() + "\n");
-        text.append("Hello " + user.getName() + "\n");
-        text.append("You're only " + user.getName()+ " Name.\n");
-        text.append("Review:\n");
-        for (Object msg : user.getReviews())
-            text.append(msg.toString() + "\n");
-        
+        Model db = null;
+        try {
+            db = Model.singleton();
+            String userid = review.getName();
+            db.deleteReview(jobj);
+           // logger.log(Level.INFO, "user deleted from db=" + userid);
+            text.append("User id deleted with name=" + userid);
+        } catch (Exception ex) {
+            Logger.getLogger(ReviewService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return text.toString();
+    }
+    
+    
+    
+    
+        @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String updateReview(String jobj) throws IOException
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        Review user = mapper.readValue(jobj.toString(), Review.class);
+        StringBuilder text = new StringBuilder();
+         Model db = null;
+        try {
+            db = Model.singleton();
+            int userid = user.getRating();
+            String description = user.getDescription();
+            db.updateReview(user);
+            //logger.log(Level.INFO, "update user with userid=" + userid);
+            text.append("User id updated with user name=" + user.getName() + "\n");
+        } catch (Exception ex) {
+            Logger.getLogger(ReviewService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     
         return text.toString();
     }
 }

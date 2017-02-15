@@ -13,65 +13,42 @@ import java.util.List;
  */
 public class Review {
 	int rating;
-	String review, name, date;
-        List<String> reviews;
+	String name;
+        String description;
+
+    public int getRating() {
+        return rating;
+    }
 
     public void setRating(int rating) {
         this.rating = rating;
     }
 
-    public void setReview(String response) {
-        this.review = response;
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
-
-    public void setDate(String date) {
-        this.date = date;
+    
+    public Review(){
+        
     }
 
-	/* Generates a default review constructor */
-	public Review() {}
-
-	public Review(String date, int rating, String response, String person) {
-		this.date = date;
-		this.rating = rating;
-		this.review = response;
-		this.name = person;
-	}
-
-	/* Returns the date of this review */
-	public String getDate() {
-		return date;
-	}
-
-	/* Returns the rating of this review */
-	public int getRating() {
-		return rating;
-	}
-
-	/* Returns the response */
-	public String getReview() {
-		return review;
-	}
-
-	/* Returns the name of the reviewer */
-	public String getName() {
-		return name;
-	}
-
-	/* Gets the review object in a string format
-	 * 
-  	 * Returns a toString form of the object */
-	public String toString() {
-		return "Reviewer: " + name + "\nDate: " + date + "\nRating: " + rating
-			 + "\nReview: " + review; 
-	}
-        
-        public List<String> getReviews() {
-        return reviews;
+    public Review(int rating, String name, String description) {
+        this.rating = rating;
+        this.name = name;
+        this.description = description;
     }
-        
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
 }
