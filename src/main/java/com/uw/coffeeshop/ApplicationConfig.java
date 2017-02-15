@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.sample_maven_web_app;
+package com.uw.coffeeshop;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -30,8 +30,8 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
 
-        resources.add(com.mycompany.sample_maven_web_app.UserService.class);
-        resources.add(com.mycompany.sample_maven_web_app.MessageService.class);
+        //resources.add(com.uw.coffeeshop.UserService.class);
+        //resources.add(com.uw.coffeeshop.MessageService.class);
     }
     
 }
