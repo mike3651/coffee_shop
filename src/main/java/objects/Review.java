@@ -5,6 +5,8 @@
  */
 package objects;
 
+import java.util.List;
+
 /**
  *
  * @author ubuntu
@@ -12,6 +14,7 @@ package objects;
 public class Review {
 	int rating;
 	String review, name, date;
+        List<String> reviews;
 
     public void setRating(int rating) {
         this.rating = rating;
@@ -66,4 +69,9 @@ public class Review {
 		return "Reviewer: " + name + "\nDate: " + date + "\nRating: " + rating
 			 + "\nReview: " + review; 
 	}
+        
+        public List<String> getReviews() {
+        return reviews;
+    }
+        
 }

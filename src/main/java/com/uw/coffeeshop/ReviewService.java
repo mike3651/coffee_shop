@@ -6,10 +6,16 @@
 package com.uw.coffeeshop;
 
 import data.Model;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import objects.Review;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  *
@@ -25,7 +31,7 @@ public class ReviewService {
         try
         {
             Model db = Model.singleton();
-            Review[] message = db.getReview();
+            Review[] message = db.getReviews();
             for (int i=0;i<message.length;i++)
                 sb.append("<tr><td>" + message[i].getRating()+ "</td><td>" + message[i].getReview()+ "</td><td>" + message[i].getName()+ "</td></tr>");
         }
@@ -35,5 +41,25 @@ public class ReviewService {
         }
         sb.append("</table></body></html>");
         return sb.toString();
+    }
+    
+    
+     
+    @POST
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String createReview(String jobj) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        Review user = mapper.readValue(jobj.toString(), Review.class);
+        
+        StringBuilder text = new StringBuilder();
+        text.append("The JSON obj:" + jobj.toString() + "\n");
+        text.append("Hello " + user.getName() + "\n");
+        text.append("You're only " + user.getName()+ " Name.\n");
+        text.append("Review:\n");
+        for (Object msg : user.getReviews())
+            text.append(msg.toString() + "\n");
+        
+        return text.toString();
     }
 }

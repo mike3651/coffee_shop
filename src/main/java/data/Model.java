@@ -83,7 +83,7 @@ public class Model {
         return null;
     }
     
-        public Review[] getReview() throws SQLException {
+        public Review[] getReviews() throws SQLException {
          LinkedList<Review> ll = new LinkedList<Review>();
         String sqlQuery ="select * from users;";
         Statement st = createStatement();
@@ -99,6 +99,13 @@ public class Model {
             ll.add(usr);
         }
         return ll.toArray(new Review[ll.size()]);
+    }
+        
+          public void newReview(Review review) throws SQLException
+    {
+        //String sqlInsert="insert into messages ("
+        
+        
     }
     
 }
