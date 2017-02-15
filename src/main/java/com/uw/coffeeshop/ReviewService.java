@@ -18,7 +18,7 @@ import objects.Review;
 public class ReviewService {    
         @GET
     @Produces(MediaType.TEXT_HTML)
-    public String getName() {
+    public String getReviews() {
         //TODO return proper representation object
         StringBuilder sb = new StringBuilder();
         sb.append("<html><body><style>table, th, td {font-family:Arial,Verdana,sans-serif;font-size:16px;padding: 0px;border-spacing: 0px;}</style><b>USERS LIST:</b><br><br><table cellpadding=10 border=1><tr><td>Name</td><td>Age</td><td>userid</td></tr>");
