@@ -27,29 +27,28 @@ import org.codehaus.jackson.map.ObjectMapper;
  * @author ubuntu
  */
 @Path("review")
-public class ReviewService {    
+public class ReviewService {
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getReviews() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         List<Review> reviews = null;
         try {
-            
+
             Model db = Model.singleton();
             reviews = db.getReviews();
-            
+
         } catch (Exception ex) {
             Logger.getLogger(ReviewService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mapper.writeValueAsString(reviews);
     }
-    
-    
-     
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public void createReview(String jobj) throws IOException{
+    public void createReview(String jobj) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Review user = mapper.readValue(jobj.toString(), Review.class);
         Model db = null;
@@ -59,15 +58,14 @@ public class ReviewService {
         } catch (Exception ex) {
             Logger.getLogger(ReviewService.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
-    
-      @DELETE
+
+    @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public String deleteReview(String jobj) throws IOException
-    {
-      ObjectMapper mapper = new ObjectMapper();
+    public String deleteReview(String jobj) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
         Review review = mapper.readValue(jobj.toString(), Review.class);
         StringBuilder text = new StringBuilder();
         Model db = null;
@@ -75,26 +73,22 @@ public class ReviewService {
             db = Model.singleton();
             String userid = review.getName();
             db.deleteReview(jobj);
-           // logger.log(Level.INFO, "user deleted from db=" + userid);
+            // logger.log(Level.INFO, "user deleted from db=" + userid);
             text.append("User id deleted with name=" + userid);
         } catch (Exception ex) {
             Logger.getLogger(ReviewService.class.getName()).log(Level.SEVERE, null, ex);
         }
         return text.toString();
     }
-    
-    
-    
-    
-        @PUT
+
+    @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public String updateReview(String jobj) throws IOException
-    {
+    public String updateReview(String jobj) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Review user = mapper.readValue(jobj.toString(), Review.class);
         StringBuilder text = new StringBuilder();
-         Model db = null;
+        Model db = null;
         try {
             db = Model.singleton();
             int userid = user.getRating();
@@ -105,7 +99,7 @@ public class ReviewService {
         } catch (Exception ex) {
             Logger.getLogger(ReviewService.class.getName()).log(Level.SEVERE, null, ex);
         }
-     
+
         return text.toString();
     }
 }
